@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useRef, useState } from 'react';
 
 const HOST_API = "http://localhost:8080/api"
 
@@ -39,7 +39,7 @@ const Form = () => {
 
   return <form ref={formRef}>
     <input type="text" name="name" onChange={(event) => {
-      setState({ ...state, name: event.target.value })
+      setState({...state, name: event.target.value})
     }}></input>
     <button onClick={onAdd}>Agregar</button>
   </form>
@@ -49,7 +49,7 @@ const List = () => {
   const { dispatch, state } = useContext(Store);
 
   useEffect(() => {
-    fetch(HOST_API + "/todos")
+    fetch(HOST_API+"/todos")
       .then(response => response.json())
       .then((list) => {
         dispatch({ type: "update-list", list })
@@ -103,6 +103,7 @@ const StoreProvider = ({ children }) => {
 
 function App() {
   return <StoreProvider>
+    <Form />
     <List />
   </StoreProvider>;
 }
