@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, useRef, useState } from 'react';
+import React, { useContext, useReducer, useEffect, useRef, useState, createContext } from 'react';
 
 const HOST_API = "http://localhost:8080/api"
 
@@ -11,9 +11,11 @@ const Store = createContext(initialState)
 
 const Form = () => {
   const formRef = useRef(null);
+  const value = useContext(Store);
   const { dispatch, state: {item} } = useContext(Store);
-  const { state, setState} = useState(item);
+  const [ state, setState] = useState({item});
 
+  //Funcion que permite agregar los items
   const onAdd = (event) => {
     event.preventDefault();
 
@@ -38,6 +40,7 @@ const Form = () => {
     });
   }
 
+  //Funcion que permite editar los items
   const onEdit = (event) => {
     event.preventDefault();
 
@@ -83,6 +86,7 @@ const List = () => {
       })
   }, [state.list.length, dispatch]);
 
+  //Permite eliminar los item por id
   const onDelete = (id) => {
     fetch(HOST_API+"/"+id+"/todo", {
       method: "DELETE"
@@ -92,10 +96,12 @@ const List = () => {
     })
   };
 
+  //Permite editar los items
   const onEdit = (todo) => {
     dispatch({type: "edit-item", item: todo})
-  }
+  };
 
+  //Creación de la tabla que se va a mostar en la web
   return <div>
     <table>
       <thead>
@@ -123,12 +129,12 @@ const List = () => {
 function reducer(state, action) {
   switch (action.type) {
     case 'update-item':
-    const listUpdateEdit = state.list.map((item) => {
-      if (item.id === action.item.id){
-        return action.item;
-      }
+      const listUpdateEdit = state.list.map((item) => {
+        if (item.id === action.item.id){
+          return action.item;
+        }
       return item;
-    })
+    });
     return { ...state, list: listUpdateEdit, item: {} }
     case 'delete-item':
       const listUpdate = state.list.filter((item) => {
@@ -159,10 +165,13 @@ const StoreProvider = ({ children }) => {
 }
 
 function App() {
-  return <StoreProvider>
-    <Form />
-    <List />
-  </StoreProvider>;
+  return (
+    <StoreProvider>
+      <h3>TO-DO List</h3>
+      <Form />
+      <List />
+    </StoreProvider>
+  );
 }
 
 export default App;
