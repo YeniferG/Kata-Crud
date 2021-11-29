@@ -135,7 +135,7 @@ function reducer(state, action) {
         }
       return item;
     });
-    return { ...state, list: listUpdateEdit, item: {} }
+      return { ...state, list: listUpdateEdit, item: {} }
     case 'delete-item':
       const listUpdate = state.list.filter((item) => {
         return item.id !== action.id;

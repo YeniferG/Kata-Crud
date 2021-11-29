@@ -28,14 +28,14 @@ public class TodoController {
         throw new RuntimeException("No existe el id para actualizar");
     }
 
-    @GetMapping(value = "api/{id}/todos")
-    public Todo get(@PathVariable("id") Long id) {
-        return service.get(id);
-    }
-
-    @DeleteMapping(value = "api/{id}/todos")
+    @DeleteMapping(value = "api/{id}/todo")
     public void delete(@PathVariable("id") Long id) {
         service.delete(id);
+    }
+
+    @GetMapping(value = "api/{id}/todo")
+    public Todo get(@PathVariable("id") Long id) {
+        return service.get(id);
     }
 
 }

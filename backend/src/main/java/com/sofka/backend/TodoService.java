@@ -17,12 +17,12 @@ public class TodoService {
         return repository.save(todo);
     }
 
-    public Todo get(Long id) {
-        return repository.findById(id).orElseThrow();
-    }
-
     public void delete(Long id) {
         repository.delete(get(id));
+    }
+
+    public Todo get(Long id) {
+        return repository.findById(id).orElseThrow();
     }
 
 }
